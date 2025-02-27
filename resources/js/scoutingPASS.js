@@ -570,6 +570,10 @@ function addRadio(table, idx, name, data) {
   inp.setAttribute("value", "");
   cell2.appendChild(inp);
 
+  if (data.hasOwnProperty('required')) {
+    inp.setAttribute("required", "");
+  }
+
   if (data.hasOwnProperty('defaultValue')) {
     var def = document.createElement("input");
     def.setAttribute("id", "default_" + data.code)
@@ -608,7 +612,7 @@ function addCheckbox(table, idx, name, data) {
   cell2.appendChild(inp);
 
   if (data.type == 'bool') {
-    cell2.innerHTML += "(checked = Yes)";
+    cell2.innerHTML += "(Yes)";
   }
 
   if (data.hasOwnProperty('defaultValue')) {
@@ -874,13 +878,12 @@ function getData(dataFormat) {
 }
 
 function updateQRHeader() {
-  let str = 'Event: !EVENT! Match: !MATCH! Robot: !ROBOT! Team: !TEAM!';
+  let str = 'Scout: !SCOUT! || Match: !MATCH! || Team: !TEAM!';
 
   if (!pitScouting) {
     str = str
-      .replace('!EVENT!', document.getElementById("input_e").value)
+      .replace('!SCOUT!', document.getElementById("input_s").value)
       .replace('!MATCH!', document.getElementById("input_m").value)
-      .replace('!ROBOT!', document.getElementById("display_r").value)
       .replace('!TEAM!', document.getElementById("input_t").value);
   } else {
     str = 'Pit Scouting - Team !TEAM!'
@@ -951,7 +954,7 @@ function clearForm() {
     if (code.substring(0, 2) == "r_") continue
     if (code.substring(0, 2) == "l_") continue
     if (code == "e") continue
-    if (code == "s") continue
+    //if (code == "s") continue		//Feb 23 2025 CB   Commented out to reset initials on clear form
 
     if (e.className == "clickableImage") {
       e.value = "[]";
